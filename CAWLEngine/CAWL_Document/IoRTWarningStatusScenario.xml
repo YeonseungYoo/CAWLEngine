@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CAWL name="IoRTWarningStatusScenario" namespace="IoRT" version="1.0">
+	<documentation>
+		IoRT Warning Status Service Scenario Document
+	</documentation>
+	<baseOntologies>
+		<ontology location="http://203.253.23.10:8180/checkcondition" namespace="SSLAB/Context-Aware_Engine/">
+		</ontology>
+	</baseOntologies>
+	<serviceProvider name="AltoRobot" location="192.168.15.154:5555">
+		<service operation="IoTAltoMove">
+		</service>
+		<service operation="IoTAltoReporting">
+		</service>
+		<service operation="IoTAltoComeBack">
+		</service>
+	</serviceProvider>
+	<activator name="Activator">
+		<condition expression="C0 and C1">
+			<context>
+				<rule>
+					<constraint name="C0">
+						<subject>
+							Robot_Alto
+						</subject>
+						<verb>
+							isNow
+						</verb>
+						<object>
+							Position_HOME
+						</object>
+					</constraint>
+					<constraint name="C1">
+						<subject>
+							Robot_Alto
+						</subject>
+						<verb>
+							isNow
+						</verb>
+						<object>
+							State_READY
+						</object>
+					</constraint>
+				</rule>
+			</context>
+		</condition>
+		<activate flow="MainFlow">
+		</activate>
+	</activator>
+	<flow name="MainFlow">
+		<source name="MainSource">
+		</source>
+		<node name="Alto_CallingRobot" state="deActivate">
+			<documentation>
+				Calling Alto Robot Service
+			</documentation>
+			<condition expression="C2">
+				<context>
+					<rule>
+						<constraint name="C2">
+							<subject>
+								SmartWatch_Gear
+							</subject>
+							<verb>
+								isNow
+							</verb>
+							<object>
+								CallBtn1_Pressed
+							</object>
+						</constraint>
+					</rule>
+				</context>
+			</condition>
+			<invoke operation="IoTAltoMove">
+			</invoke>
+		</node>
+		<node name="Alto_Reporting" state="deActivate">
+			<documentation>
+				Reporting User Health Information Service
+			</documentation>
+			<condition expression="C3 and C4">
+				<context>
+					<rule>
+						<constraint name="C3">
+							<subject>
+								Robot_Alto
+							</subject>
+							<verb>
+								isNow
+							</verb>
+							<object>
+								Position_USER
+							</object>
+						</constraint>
+						<constraint name="C4">
+							<subject>
+								User_HealthData
+							</subject>
+							<verb>
+								isNow
+							</verb>
+							<object>
+								Daily_Exercise_OK
+							</object>
+						</constraint>
+					</rule>
+				</context>
+			</condition>
+			<invoke operation="IoTAltoReporting">
+			</invoke>
+		</node>
+		<node name="Alto_ComeBack" state="deActivate">
+			<documentation>
+				Come Back Alto Robot Service
+			</documentation>
+			<condition expression="C5 and C6 and C7">
+				<context>
+					<rule>
+						<constraint name="C5">
+							<subject>
+								Robot_Alto_Tablet
+							</subject>
+							<verb>
+								isNow
+							</verb>
+							<object>
+								ComebackBtn_Pressed
+							</object>
+						</constraint>
+						<constraint name="C6">
+							<subject>
+								Robot_Alto
+							</subject>
+							<verb>
+								isNow
+							</verb>
+							<object>
+								Position_HOME
+							</object>
+						</constraint>
+						<constraint name="C7">
+							<subject>
+								Robot_Alto
+							</subject>
+							<verb>
+								isNow
+							</verb>
+							<object>
+								State_TOHOME
+							</object>
+						</constraint>
+					</rule>
+				</context>
+			</condition>
+			<invoke operation="IoTAltoComeBack">
+			</invoke>
+		</node>
+		<sink name="MainSink">
+		</sink>
+		<link from="MainSource" to="Alto_CallingRobot">
+		</link>
+		<link from="Alto_CallingRobot" to="Alto_Reporting">
+		</link>
+		<link from="Alto_Reporting" to="Alto_ComeBack">
+		</link>
+		<link from="Alto_ComeBack" to="MainSink">
+		</link>
+	</flow>
+</CAWL>

@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CAWL name="IoRTDeliveryScenario" namespace="IoRT" version="1.0">
+	<documentation>
+		IoRT Delivery Service Scenario Document
+	</documentation>
+	<baseOntologies>
+		<ontology location="http://203.253.23.10:8180/checkcondition" namespace="SSLAB/Context-Aware_Engine/">
+		</ontology>
+	</baseOntologies>
+	<serviceProvider name="TutleRobot" location="192.168.15.154:6666">
+		<service operation="IoTTurtlebotMoveOne">
+		</service>
+		<service operation="IoTTurtlebotMoveTwo">
+		</service>
+		<service operation="IoTTurtlebotMoveThree">
+		</service>
+		<service operation="IoTTurtlebotMoveFour">
+		</service>
+		<service operation="IoTTurtlebotMoveHome">
+		</service>
+	</serviceProvider>
+	<activator name="Activator">
+		<condition expression="C0 and C1">
+			<context>
+				<rule>
+					<constraint name="C0">
+						<subject>
+							Robot_Turtlebot
+						</subject>
+						<verb>
+							isNow
+						</verb>
+						<object>
+							Position_HOME
+						</object>
+					</constraint>
+					<constraint name="C1">
+						<subject>
+							Robot_Turtlebot
+						</subject>
+						<verb>
+							isNow
+						</verb>
+						<object>
+							State_READY
+						</object>
+					</constraint>
+				</rule>
+			</context>
+		</condition>
+		<activate flow="MainFlow">
+		</activate>
+	</activator>
+	<flow name="MainFlow">
+		<source name="MainSource">
+		</source>
+		<node name="Turtle_DeliveryU1" state="deActivate">
+			<documentation>
+				Turtle Robot Delivery U1 Service
+			</documentation>
+			<condition expression="C2 and C3 and C4">
+				<context>
+					<rule>
+						<constraint name="C2">
+							<subject>
+								SmartWatch_Gear
+							</subject>
+							<verb>
+								isNow
+							</verb>
+							<object>
+								CallBtn2_Pressed
+							</object>
+						</constraint>
+						<constraint name="C3">
+							<subject>
+								Robot_Turtlebot
+							</subject>
+							<verb>
+								isNow
+							</verb>
+							<object>
+								State_READY
+							</object>
+						</constraint>
+						<constraint name="C4">
+							<subject>
+								Robot_Turtlebot_Serving
+							</subject>
+							<verb>
+								isNow
+							</verb>
+							<object>
+								SERVING_READY
+							</object>
+						</constraint>
+					</rule>
+				</context>
+			</condition>
+			<invoke operation="IoTTurtlebotMoveOne">
+			</invoke>
+		</node>
+		<node name="Turtle_DeliveryU2" state="deActivate">
+			<documentation>
+				Turtle Robot Delivery U2 Service
+			</documentation>
+			<condition expression="C5 and C6 and C7">
+				<context>
+					<rule>
+						<constraint name="C5">
+							<subject>
+								Robot_Turtlebot
+							</subject>
+							<verb>
+								isNow
+							</verb>
+							<object>
+								Position_Point1
+							</object>
+						</constraint>
+						<constraint name="C6">
+							<subject>
+								Robot_Turtlebot
+							</subject>
+							<verb>
+								isNow
+							</verb>
+							<object>
+								State_DELIVERY
+							</object>
+						</constraint>
+						<constraint name="C7">
+							<subject>
+								Robot_Turtlebot_Serving
+							</subject>
+							<verb>
+								isNow
+							</verb>
+							<object>
+								SERVING_TAKEN
+							</object>
+						</constraint>
+					</rule>
+				</context>
+			</condition>
+			<invoke operation="IoTTurtlebotMoveTwo">
+			</invoke>
+		</node>
+		<node name="Turtle_DeliveryU3" state="deActivate">
+			<documentation>
+				Turtle Robot Delivery U3 Service
+			</documentation>
+			<condition expression="C8 and C9 and C10">
+				<context>
+					<rule>
+						<constraint name="C8">
+							<subject>
+								Robot_Turtlebot
+							</subject>
+							<verb>
+								isNow
+							</verb>
+							<object>
+								Position_Point2
+							</object>
+						</constraint>
+						<constraint name="C9">
+							<subject>
+								Robot_Turtlebot
+							</subject>
+							<verb>
+								isNow
+							</verb>
+							<object>
+								State_DELIVERY
+							</object>
+						</constraint>
+						<constraint name="C10">
+							<subject>
+								Robot_Turtlebot_Serving
+							</subject>
+							<verb>
+								isNow
+							</verb>
+							<object>
+								SERVING_TAKEN
+							</object>
+						</constraint>
+					</rule>
+				</context>
+			</condition>
+			<invoke operation="IoTTurtlebotMoveThree">
+			</invoke>
+		</node>
+		<node name="Turtle_DeliveryU4" state="deActivate">
+			<documentation>
+				Turtle Robot Delivery U4 Service
+			</documentation>
+			<condition expression="C11 and C12 and C13">
+				<context>
+					<rule>
+						<constraint name="C11">
+							<subject>
+								Robot_Turtlebot
+							</subject>
+							<verb>
+								isNow
+							</verb>
+							<object>
+								Position_Point3
+							</object>
+						</constraint>
+						<constraint name="C12">
+							<subject>
+								Robot_Turtlebot
+							</subject>
+							<verb>
+								isNow
+							</verb>
+							<object>
+								State_DELIVERY
+							</object>
+						</constraint>
+						<constraint name="C13">
+							<subject>
+								Robot_Turtlebot_Serving
+							</subject>
+							<verb>
+								isNow
+							</verb>
+							<object>
+								SERVING_TAKEN
+							</object>
+						</constraint>
+					</rule>
+				</context>
+			</condition>
+			<invoke operation="IoTTurtlebotMoveFour">
+			</invoke>
+		</node>
+		<node name="Turtle_ComeBack" state="deActivate">
+			<documentation>
+				Turtle Robot Come Back Service
+			</documentation>
+			<condition expression="C14 and C15 and C16">
+				<context>
+					<rule>
+						<constraint name="C14">
+							<subject>
+								Robot_Turtlebot
+							</subject>
+							<verb>
+								isNow
+							</verb>
+							<object>
+								Position_Point4
+							</object>
+						</constraint>
+						<constraint name="C15">
+							<subject>
+								Robot_Turtlebot
+							</subject>
+							<verb>
+								isNow
+							</verb>
+							<object>
+								State_DELIVERY
+							</object>
+						</constraint>
+						<constraint name="C16">
+							<subject>
+								Robot_Turtlebot_Serving
+							</subject>
+							<verb>
+								isNow
+							</verb>
+							<object>
+								SERVING_EMPTY
+							</object>
+						</constraint>
+					</rule>
+				</context>
+			</condition>
+			<invoke operation="IoTTurtlebotMoveHome">
+			</invoke>
+		</node>
+		<sink name="MainSink">
+		</sink>
+		<link from="MainSource" to="Turtle_DeliveryU1">
+		</link>
+		<link from="Turtle_DeliveryU1" to="Turtle_DeliveryU2">
+		</link>
+		<link from="Turtle_DeliveryU2" to="Turtle_DeliveryU3">
+		</link>
+		<link from="Turtle_DeliveryU3" to="Turtle_DeliveryU4">
+		</link>
+		<link from="Turtle_DeliveryU4" to="Turtle_ComeBack">
+		</link>
+		<link from="Turtle_ComeBack" to="MainSink">
+		</link>
+	</flow>
+</CAWL>

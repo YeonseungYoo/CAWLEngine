@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2010 (http://www.altova.com) by MESMERiZE (MiZE) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:element name="CAWL" type="CAWLType"/>
+	<xs:complexType name="documentationType">
+		<xs:sequence>
+			<xs:element name="documentation" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="CAWLType">
+		<xs:complexContent>
+			<xs:extension base="documentationType">
+				<xs:sequence>
+					<xs:element name="message" type="messageType" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="variable" type="variableType" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="baseOntologies" type="baseOntologiesType"/>
+					<xs:element name="serviceProvider" type="serviceProviderType" maxOccurs="unbounded"/>
+					<xs:element name="activator" type="activatorType"/>
+					<xs:element name="flow" type="flowType" maxOccurs="unbounded"/>
+				</xs:sequence>
+				<xs:attribute name="name" use="required"/>
+				<xs:attribute name="namespace" use="required"/>
+				<xs:attribute name="version" use="required"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="messageType">
+		<xs:complexContent>
+			<xs:extension base="documentationType">
+				<xs:sequence>
+					<xs:element name="part" type="partType" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+				<xs:attribute name="name" use="required"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="partType">
+		<xs:complexContent>
+			<xs:extension base="documentationType">
+				<xs:attribute name="name" use="required"/>
+				<xs:attribute name="element"/>
+				<xs:attribute name="type"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="variableType">
+		<xs:complexContent>
+			<xs:extension base="documentationType">
+				<xs:sequence>
+					<xs:element name="initialize" type="initializeType" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+				<xs:attribute name="name" use="required"/>
+				<xs:attribute name="type" use="required"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="initializeType">
+		<xs:complexContent>
+			<xs:extension base="documentationType">
+				<xs:sequence>
+					<xs:element name="from" type="fromType"/>
+				</xs:sequence>
+				<xs:attribute name="part" use="required"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="fromType">
+		<xs:complexContent>
+			<xs:extension base="documentationType">
+				<xs:attribute name="variable" use="optional"/>
+				<xs:attribute name="part" use="optional"/>
+				<xs:attribute name="expression" use="optional"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="baseOntologiesType">
+		<xs:complexContent>
+			<xs:extension base="documentationType">
+				<xs:sequence>
+					<xs:element name="ontology" type="ontologyType" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="ontologyType">
+		<xs:complexContent>
+			<xs:extension base="documentationType">
+				<xs:attribute name="location" use="required"/>
+				<xs:attribute name="namespace" use="required"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="serviceProviderType">
+		<xs:complexContent>
+			<xs:extension base="documentationType">
+				<xs:sequence>
+					<xs:element name="service" type="serviceType" maxOccurs="unbounded"/>
+				</xs:sequence>
+				<xs:attribute name="name" use="required"/>
+				<xs:attribute name="location" use="required"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="serviceType">
+		<xs:complexContent>
+			<xs:extension base="documentationType">
+				<xs:attribute name="operation" use="required"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="activatorType">
+		<xs:complexContent>
+			<xs:extension base="documentationType">
+				<xs:sequence>
+					<xs:element name="message" type="messageType" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="variable" type="variableType" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="condition" type="conditionType"/>
+					<xs:element name="activate" type="activateType"/>
+				</xs:sequence>
+				<xs:attribute name="name" use="required"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="activateType">
+		<xs:complexContent>
+			<xs:extension base="documentationType">
+				<xs:attribute name="flow" use="required"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="conditionType">
+		<xs:complexContent>
+			<xs:extension base="documentationType">
+				<xs:sequence>
+					<xs:element name="case" type="caseType" minOccurs="0"/>
+					<xs:element name="context" type="contextType"/>
+				</xs:sequence>
+				<xs:attribute name="expression" use="required"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="caseType">
+		<xs:complexContent>
+			<xs:extension base="documentationType">
+				<xs:sequence>
+					<xs:element name="event" type="eventType" maxOccurs="unbounded"/>
+				</xs:sequence>
+				<xs:attribute name="name" use="optional"/>
+				<xs:attribute name="expression"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="eventType">
+		<xs:complexContent>
+			<xs:extension base="documentationType">
+				<xs:attribute name="name" use="required"/>
+				<xs:attribute name="operation" use="required"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="contextType">
+		<xs:complexContent>
+			<xs:extension base="documentationType">
+				<xs:sequence>
+					<xs:element name="rule" type="ruleType" maxOccurs="unbounded"/>
+				</xs:sequence>
+				<xs:attribute name="name" use="optional"/>
+				<xs:attribute name="priority"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="ruleType">
+		<xs:complexContent>
+			<xs:extension base="documentationType">
+				<xs:sequence>
+					<xs:element name="constraint" type="constraintType" maxOccurs="unbounded"/>
+				</xs:sequence>
+				<xs:attribute name="name" use="optional"/>
+				<xs:attribute name="expression"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="constraintType">
+		<xs:complexContent>
+			<xs:extension base="documentationType">
+				<xs:sequence>
+					<xs:element name="subject" type="subjectType"/>
+					<xs:element name="verb"/>
+					<xs:element name="object" type="objectType"/>
+				</xs:sequence>
+				<xs:attribute name="name" use="required"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="subjectType">
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attribute name="type"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="objectType">
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attribute name="type"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="flowType">
+		<xs:complexContent>
+			<xs:extension base="documentationType">
+				<xs:sequence>
+					<xs:element name="message" type="messageType" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="variable" type="variableType" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="source" type="sourceType"/>
+					<xs:element name="node" type="nodeType" maxOccurs="unbounded"/>
+					<xs:element name="sink" type="sinkType"/>
+					<xs:element name="link" type="linkType" maxOccurs="unbounded"/>
+				</xs:sequence>
+				<xs:attribute name="name" use="required"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="sourceType">
+		<xs:complexContent>
+			<xs:extension base="documentationType">
+				<xs:attribute name="name" use="required"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="nodeType">
+		<xs:complexContent>
+			<xs:extension base="documentationType">
+				<xs:sequence>
+					<xs:element name="message" type="messageType" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="variable" type="variableType" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="wait" type="waitType" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="condition" type="conditionType"/>
+					<xs:element name="invoke" type="invokeType" maxOccurs="unbounded"/>
+				</xs:sequence>
+				<xs:attribute name="name" use="required"/>
+				<xs:attribute name="state" use="required"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="waitType">
+		<xs:complexContent>
+			<xs:extension base="documentationType">
+				<xs:attribute name="joinCondition" use="required"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="invokeType">
+		<xs:complexContent>
+			<xs:extension base="documentationType">
+				<xs:attribute name="operation"/>
+				<xs:attribute name="subflow"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="sinkType">
+		<xs:complexContent>
+			<xs:extension base="documentationType">
+				<xs:attribute name="name" use="required"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="linkType">
+		<xs:complexContent>
+			<xs:extension base="documentationType">
+				<xs:attribute name="from" use="required"/>
+				<xs:attribute name="to" use="required"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+</xs:schema>
